@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "lanprotect",
+  "version": "${version}",
+
+  "name": "LANProtect",
+  "description": "",
+  "authors": [],
+  "contact": {},
+
+  "license": "All-Rights-Reserved",
+  "icon": "assets/lanprotect/icon.png",
+
+  "environment": "client",
+  "entrypoints": {
+    "client": ["wida.lanprotect.client.LanProtectClient"],
+    "main": ["wida.lanprotect.LanProtect"]
+  },
+
+  "mixins": [
+    "lanprotect.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
