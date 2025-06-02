@@ -7,8 +7,8 @@ public class WhitelistManager {
 
     protected WhitelistManager() {  }
 
-    private Set<String> whitelisted = new HashSet<>();
-    private Set<String> banned = new HashSet<>();
+    private final Set<String> whitelisted = new HashSet<>();
+    private final Set<String> banned = new HashSet<>();
 
     public void whitelist(String name) {
         whitelisted.add(name);

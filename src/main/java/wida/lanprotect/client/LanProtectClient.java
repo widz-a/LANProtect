@@ -9,8 +9,7 @@ public class LanProtectClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-            new LanProtectCommand().register(dispatcher);
-        });
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
+                new LanProtectCommand().register(dispatcher));
     }
 }

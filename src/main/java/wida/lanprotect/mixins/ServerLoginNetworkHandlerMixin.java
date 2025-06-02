@@ -2,12 +2,9 @@ package wida.lanprotect.mixins;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.network.ClientConnection;
 import net.minecraft.network.packet.c2s.login.LoginHelloC2SPacket;
 import net.minecraft.server.integrated.IntegratedServer;
-import net.minecraft.server.network.ConnectedClientData;
 import net.minecraft.server.network.ServerLoginNetworkHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,7 +16,7 @@ import wida.lanprotect.client.WhitelistManager;
 
 @Mixin(ServerLoginNetworkHandler.class)
 public class ServerLoginNetworkHandlerMixin {
-    @Inject(method = "onHello", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(method = "onHello", at = @At(value = "HEAD"))
     public void onHello(LoginHelloC2SPacket packet, CallbackInfo ci) {
         ClientPlayerEntity clientPlayer = MinecraftClient.getInstance().player;
         IntegratedServer server = MinecraftClient.getInstance().getServer();
