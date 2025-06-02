@@ -1,11 +1,13 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "wida.lanprotect.mixin",
+  "package": "wida.lanprotect.mixins",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
   ],
   "client": [
+    "MinecraftClientMixin",
+    "ServerLoginNetworkHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
