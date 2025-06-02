@@ -2,11 +2,14 @@ package wida.lanprotect.mixins;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.network.packet.c2s.login.LoginHelloC2SPacket;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.server.network.ServerLoginNetworkHandler;
 import net.minecraft.text.ClickEvent;
+import net.minecraft.text.HoverEvent;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -31,21 +34,31 @@ public class ServerLoginNetworkHandlerMixin {
 
         if (manager.shouldAsk(name)) {
             clientPlayer.sendMessage(
-                    Text.literal(name + " is requesting to join ")
-                            .append(Text.literal("[v]")
-                                    .styled(it -> it.withClickEvent(new ClickEvent.RunCommand("/lanprotect whitelist " + name)))
+                    Text.translatable("wida.lanprotect.request", name).styled(it -> it.withColor(Formatting.GOLD))
+                            .append(Text.literal("[✔]")
+                                    .styled(it -> it
+                                            .withClickEvent(new ClickEvent.RunCommand("/lanprotect whitelist " + name))
+                                            .withHoverEvent(new HoverEvent.ShowText(Text.translatable("wida.lanprotect.whitelist.hover")))
+                                            .withBold(true)
+                                            .withColor(Formatting.DARK_GREEN)
+                                    )
                             )
                             .append(" ")
-                            .append(Text.literal("[x]")
-                                    .styled(it -> it.withClickEvent(new ClickEvent.RunCommand("/lanprotect ban " + name)))
+                            .append(Text.literal("[✖]")
+                                    .styled(it -> it
+                                            .withClickEvent(new ClickEvent.RunCommand("/lanprotect ban " + name))
+                                            .withHoverEvent(new HoverEvent.ShowText(Text.translatable("wida.lanprotect.banned.hover")))
+                                            .withBold(true)
+                                            .withColor(Formatting.DARK_RED)
+                                    )
                             ),
                     false);
-            handler.disconnect(Text.literal("Awaiting host's confirmation"));
+            handler.disconnect(Text.literal(I18n.translate("wida.lanprotect.await")));
             return;
         }
 
         if (manager.isBanned(name)) {
-            handler.disconnect(Text.literal("You're not allowed to join this game."));
+            handler.disconnect(Text.literal(I18n.translate("wida.lanprotect.banned")));
             return;
         }
     }

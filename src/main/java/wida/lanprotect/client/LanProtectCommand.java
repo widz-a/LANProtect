@@ -7,6 +7,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 
 import static com.mojang.brigadier.arguments.StringArgumentType.*;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
@@ -18,12 +19,12 @@ public class LanProtectCommand {
     public void register(CommandDispatcher<FabricClientCommandSource> dispatcher) {
         dispatcher.register(literal("lanprotect")
                 .then(literal("whitelist").then(argument("name", string()).executes(ctx -> executes(getString(ctx, "name"), Type.WHITELIST))))
-                .then(literal("ban").then(argument("name", string()).executes(ctx -> executes(getString(ctx, "name"), Type.BAN))))
+                .then(literal("ban").then(argument("name", string()).executes(ctx -> executes(getString(ctx, "name"), Type.BANNED))))
         );
     }
 
     private enum Type {
-        BAN, WHITELIST
+        BANNED, WHITELIST
     }
 
     private int executes(String name, Type type) {
@@ -35,9 +36,9 @@ public class LanProtectCommand {
         if (!server.isRemote()) return SINGLE_SUCCESS;
 
         WhitelistManager manager = LanProtectClient.playerManager;
-        boolean is = type == Type.BAN ? manager.isBanned(name) : manager.isWhitelisted(name);
+        boolean is = type == Type.BANNED ? manager.isBanned(name) : manager.isWhitelisted(name);
         if (is) {
-            sender.sendMessage(Text.literal("Already " + type.name() + "ED,"), false);
+            sender.sendMessage(Text.translatable("wida.lanprotect."+ type.name().toLowerCase() + ".already", name).styled(it -> it.withColor(Formatting.RED)), false);
             return SINGLE_SUCCESS;
         }
 
@@ -46,10 +47,10 @@ public class LanProtectCommand {
             manager.ban(name);
             ServerPlayerEntity player = server.getPlayerManager().getPlayer(name);
             if (player != null)
-                player.networkHandler.disconnect(Text.literal("You're not allowed. bozo"));
+                player.networkHandler.disconnect(Text.translatable("wida.lanprotect.banned"));
         }
 
-        sender.sendMessage(Text.literal(type.name().toLowerCase() + " " + name + "."), false);
+        sender.sendMessage(Text.translatable("wida.lanprotect."+ type.name().toLowerCase() + ".success", name).styled(it -> it.withColor(Formatting.GREEN)), false);
 
         return SINGLE_SUCCESS;
     }

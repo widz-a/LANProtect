@@ -1,0 +1,11 @@
+{
+  "wida.lanprotect.request": "%s is requesting to join ",
+  "wida.lanprotect.await": "Awaiting the host's confirmation.",
+  "wida.lanprotect.banned": "You're not allowed to join this game.",
+  "wida.lanprotect.whitelist.success": "Whitelisted %s.",
+  "wida.lanprotect.whitelist.already": "Already whitelisted %s.",
+  "wida.lanprotect.whitelist.hover": "Click to allow this player to join.",
+  "wida.lanprotect.banned.success": "Banned %s.",
+  "wida.lanprotect.banned.already": "Already banned %s.",
+  "wida.lanprotect.banned.hover": "Click to block this player's connection."
+}
